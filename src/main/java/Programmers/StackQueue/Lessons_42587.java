@@ -25,8 +25,30 @@ import java.util.*;
  */
 public class Lessons_42587 {
     public int solution(int[] priorities, int location) {
-        List<Integer> list = new ArrayList<>();
+        List<Integer> print_list = new ArrayList<>();
+        for (int priority : priorities) {
+            print_list.add(priority);
+        }
 
+        int printed_cnt = 1;
+        while (!print_list.isEmpty()) {
+            final Integer j = print_list.get(0);
+            if (print_list.stream().anyMatch(v -> j < v)) { // 뒤에 더 큰값이 있으면 TODO : stream AnyMatch 등 공부하기
+                print_list.add(print_list.remove(0)); // 그 값을 뒤에 추가한다.
+            } else { // 뒤에 더 큰값이 없고
+                if (location == 0) { // 맨앞값이 원하던 값이면 리턴
+                    return printed_cnt;
+                } // 아니라면 지우고 출력물수 +1
+                print_list.remove(0);
+                printed_cnt++;
+            }
+
+            if (location > 0) { // 원하던게 뒤에 있었다면 앞에가 지워졌으니 원하던것도 앞으로 왔을 것
+                location--;
+            } else { // 원하던게 맨앞인데 뒤에 우선순위가 더 큰 게 있었다면 맨 뒤로 갔을 것
+                location = print_list.size() - 1;
+            }
+        }
         throw new IllegalArgumentException(); // TODO : Exception 종류에 대해서 공부할 것
     }
 
